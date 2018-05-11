@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using XBitApi.Models;
 
 namespace XBitApi.EF
 {
@@ -12,5 +12,18 @@ namespace XBitApi.EF
             optionsBuilder.UseSqlServer("Data Source=localhost\\SQLEXPRESS;Initial Catalog=XBit;Integrated Security=SSPI");
             base.OnConfiguring(optionsBuilder);
         }
+
+        public DbSet<Manufacturer> Manufacturers { get; set; }
+        public DbSet<MinerType> MinerTypes { get; set; }
+        public DbSet<MinerAlgorithm> MinerAlgorithms { get; set; }
+        public DbSet<Algorithm> Algorithms { get; set; }
+        public DbSet<CoinAlgorithm> CoinAlgorithms { get; set; }
+        public DbSet<Coin> Coins { get; set; }
+        public DbSet<Miner> Miners { get; set; }
+        public DbSet<HostingPeriod> HostingPeriods { get; set; }
+        public DbSet<MiningFarm> MiningFarms { get; set; }
+        public DbSet<Balance> Balances { get; set; }
+        public DbSet<Shelf> Shelves { get; set; }
+        public DbSet<Location> Locations { get; set; }
     }
 }
