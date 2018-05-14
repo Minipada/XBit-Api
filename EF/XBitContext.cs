@@ -25,5 +25,13 @@ namespace XBitApi.EF
         public DbSet<Balance> Balances { get; set; }
         public DbSet<Shelf> Shelves { get; set; }
         public DbSet<Location> Locations { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<LocationAdministrator> LocationAdministrators { get; set; }
+        public DbSet<Administrator> Administrators { get; set; }
+        public DbSet<UserInformation> UserInformations { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<FarmMember> FarmMembers { get; set; }
+        public DbSet<FarmRight> FarmRights { get; set; }
     }
 }

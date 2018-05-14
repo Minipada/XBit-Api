@@ -3,15 +3,14 @@ using System.Collections.Generic;
 
 namespace XBitApi.Models
 {
-    public class Location
+    public class Administrator
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
-        public Guid AddressId { get; set; }
+        public string Password { get; set; }
+        public Guid UserInformationId { get; set; }
 
-        public Address Address { get; set; }
+        public UserInformation UserInformation { get; set; }
 
-        public IEnumerable<Shelf> Shelves { get; set; }
         public IEnumerable<LocationAdministrator> LocationAdministrators { get; set; }
     }
 }
