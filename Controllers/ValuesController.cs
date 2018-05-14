@@ -9,7 +9,7 @@ namespace XBit_Api.Controllers
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
-        // GET api/values
+        // GET api/values Zi
         [HttpGet]
         public IEnumerable<string> Get()
         {
