@@ -20,9 +20,21 @@ namespace XBitApi.Controllers
 
         // GET api/country
         [HttpGet]
-        public IActionResult GetCountries()
+        public IActionResult GetCountries(string name)
         {
-            return Ok(context.Countries.ToList());
+            List<Country> countries = context.Countries.ToList();
+
+            if (!String.IsNullOrEmpty(name))
+            {
+                var countriesWithoutName = countries.Where(country => country.Name != name);
+                foreach (var country in countriesWithoutName)
+                {
+                    countries.Remove(country);
+                }
+            }
+
+            return Ok(countries);
+
         }
 
         // GET api/country/Guid
@@ -43,7 +55,8 @@ namespace XBitApi.Controllers
         {
             context.Countries.Add(country);
             context.SaveChanges();
-            return CreatedAtAction(country.Id.ToString(), country);
+            //return CreatedAtAction(country.Id.ToString(), country);
+            return Created(Url.ToString(), country);
         }
 
         // PUT api/country
