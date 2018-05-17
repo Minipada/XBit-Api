@@ -11,7 +11,5 @@ namespace XBitApi.Models
 
         public Algorithm Algorithm { get; set; }
         public Coin Coin { get; set; }
-
-        public IEnumerable<Miner> Miners { get; set; }
     }
 }

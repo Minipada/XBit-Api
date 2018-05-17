@@ -10,7 +10,5 @@ namespace XBitApi.Models
         public bool CanBuyMiningPackages { get; set; }
         public bool CanWithdrawCoins { get; set; }
         public bool HasReadRights { get; set; }
-
-        public IEnumerable<FarmMember> FarmMembers { get; set; }
     }
 }

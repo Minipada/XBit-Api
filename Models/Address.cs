@@ -12,7 +12,5 @@ namespace XBitApi.Models
         public Guid CountryId { get; set; }
 
         public Country Country { get; set; }
-
-        public IEnumerable<Location> Locations { get; set; }
     }
 }

@@ -10,7 +10,5 @@ namespace XBitApi.Models
         public string Phone { get; set; }
         public string Email { get; set; }
         public string Website { get; set; }
-
-        public IEnumerable<MinerType> MinerTypes { get; set; }
     }
 }

@@ -10,7 +10,5 @@ namespace XBitApi.Models
         public Guid UserInformationId { get; set; }
 
         public UserInformation UserInformation { get; set; }
-
-        public IEnumerable<LocationAdministrator> LocationAdministrators { get; set; }
     }
 }

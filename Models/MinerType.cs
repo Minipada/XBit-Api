@@ -10,8 +10,5 @@ namespace XBitApi.Models
         public Guid ManufacturerId { get; set; }
 
         public Manufacturer Manufacturer { get; set; }
-
-        public IEnumerable<MinerAlgorithm> MinerAlgorithms { get; set; }
-        public IEnumerable<Miner> Miners { get; set; }
     }
 }

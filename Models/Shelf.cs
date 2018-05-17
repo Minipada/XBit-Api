@@ -10,7 +10,5 @@ namespace XBitApi.Models
         public Guid LocationId { get; set; }
 
         public Location Location { get; set; }
-
-        public IEnumerable<Miner> Miners { get; set; }
     }
 }

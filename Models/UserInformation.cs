@@ -12,8 +12,5 @@ namespace XBitApi.Models
         public string Phone { get; set; }
         public DateTime BirthDate { get; set; }
         public string Username { get; set; }
-
-        public IEnumerable<Administrator> Administrators { get; set; }
-        public IEnumerable<Customer> Customers { get; set; }
     }
 }
