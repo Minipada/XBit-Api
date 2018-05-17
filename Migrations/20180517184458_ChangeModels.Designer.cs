@@ -11,9 +11,10 @@ using XBitApi.EF;
 namespace XBitApi.Migrations
 {
     [DbContext(typeof(XBitContext))]
-    partial class XBitContextModelSnapshot : ModelSnapshot
+    [Migration("20180517184458_ChangeModels")]
+    partial class ChangeModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
