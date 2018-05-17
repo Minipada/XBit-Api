@@ -55,8 +55,8 @@ namespace XBitApi.Controllers
         {
             context.Countries.Add(country);
             context.SaveChanges();
-            //return CreatedAtAction(country.Id.ToString(), country);
-            return Created(Url.ToString(), country);
+            string url = Url.ActionContext.HttpContext.Request.Path;
+            return Created(url, country);
         }
 
         // PUT api/country

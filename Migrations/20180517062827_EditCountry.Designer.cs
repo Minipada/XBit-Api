@@ -3,15 +3,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 using XBitApi.EF;
 
 namespace XBitApi.Migrations
 {
     [DbContext(typeof(XBitContext))]
-    partial class XBitContextModelSnapshot : ModelSnapshot
+    [Migration("20180517062827_EditCountry")]
+    partial class EditCountry
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,7 +26,7 @@ namespace XBitApi.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("CountryId");
+                    b.Property<string>("HouseNr");
 
                     b.Property<string>("Place");
 
@@ -32,8 +35,6 @@ namespace XBitApi.Migrations
                     b.Property<string>("Zip");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CountryId");
 
                     b.ToTable("Addresses");
                 });
@@ -388,14 +389,6 @@ namespace XBitApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserInformations");
-                });
-
-            modelBuilder.Entity("XBitApi.Models.Address", b =>
-                {
-                    b.HasOne("XBitApi.Models.Country", "Country")
-                        .WithMany("Addresses")
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("XBitApi.Models.Administrator", b =>

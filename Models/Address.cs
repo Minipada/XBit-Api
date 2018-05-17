@@ -9,7 +9,9 @@ namespace XBitApi.Models
         public string Street { get; set; }
         public string Place { get; set; }
         public string Zip { get; set; }
-        public string HouseNr { get; set; }
+        public Guid CountryId { get; set; }
+
+        public Country Country { get; set; }
 
         public IEnumerable<Location> Locations { get; set; }
     }
