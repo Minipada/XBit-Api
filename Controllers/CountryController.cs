@@ -63,9 +63,13 @@ namespace XBitApi.Controllers
         [HttpPut]
         public IActionResult PutCountry([FromBody]Country country)
         {
-            context.Countries.Update(country);
-            context.SaveChanges();
-            return Ok(country);
+            if (context.Countries.Any(co => co.Id == country.Id))
+            {
+                context.Countries.Update(country);
+                context.SaveChanges();
+                return Ok(country);
+            }
+            return NotFound();
         }
 
         // DELETE api/country/id
