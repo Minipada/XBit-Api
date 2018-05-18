@@ -26,8 +26,8 @@ namespace XBitApi.Controllers
 
             if (!String.IsNullOrEmpty(name))
             {
-                var countriesWithoutName = countries.Where(country => country.Name != name);
-                foreach (var country in countriesWithoutName)
+                List<Country> countriesWithoutName = new List<Country>(countries.Where(country => country.Name != name));
+                foreach (Country country in countriesWithoutName)
                 {
                     countries.Remove(country);
                 }
@@ -72,7 +72,9 @@ namespace XBitApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteCountry(Guid id)
         {
-            context.Countries.Remove(context.Countries.Find(id));
+            Country countryToRemove = context.Countries.Find(id);
+            context.Countries.Remove(countryToRemove);
+            context.SaveChanges();
             return Ok();
         }
     }
