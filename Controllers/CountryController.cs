@@ -77,9 +77,13 @@ namespace XBitApi.Controllers
         public IActionResult DeleteCountry(Guid id)
         {
             Country countryToRemove = context.Countries.Find(id);
-            context.Countries.Remove(countryToRemove);
-            context.SaveChanges();
-            return Ok();
+            if (countryToRemove != null)
+            {
+                context.Countries.Remove(countryToRemove);
+                context.SaveChanges();
+                return Ok();
+            }
+            return NotFound();
         }
     }
 }
