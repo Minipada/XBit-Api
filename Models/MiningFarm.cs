@@ -10,9 +10,5 @@ namespace XBitApi.Models
         public Guid AdminCustomerId { get; set; }
 
         public Customer Customer { get; set; }
-
-        public IEnumerable<Miner> Miners { get; set; }
-        public IEnumerable<Balance> Balances { get; set; }
-        public IEnumerable<MiningFarm> MiningFarms { get; set; }
     }
 }

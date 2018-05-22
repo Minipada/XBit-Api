@@ -13,8 +13,5 @@ namespace XBitApi.Models
 
         public UserInformation UserInformation { get; set; }
         public Address Address { get; set; }
-
-        public IEnumerable<MiningFarm> MiningFarms { get; set; }
-        public IEnumerable<FarmMember> FarmMembers { get; set; }
     }
 }

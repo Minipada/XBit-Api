@@ -7,7 +7,5 @@ namespace XBitApi.Models
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-
-        public IEnumerable<MinerAlgorithm> MinerAlgorithms { get; set; }
     }
 }

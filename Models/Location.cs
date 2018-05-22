@@ -10,8 +10,5 @@ namespace XBitApi.Models
         public Guid AddressId { get; set; }
 
         public Address Address { get; set; }
-
-        public IEnumerable<Shelf> Shelves { get; set; }
-        public IEnumerable<LocationAdministrator> LocationAdministrators { get; set; }
     }
 }

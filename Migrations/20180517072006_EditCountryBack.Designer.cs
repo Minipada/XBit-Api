@@ -3,15 +3,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 using XBitApi.EF;
 
 namespace XBitApi.Migrations
 {
     [DbContext(typeof(XBitContext))]
-    partial class XBitContextModelSnapshot : ModelSnapshot
+    [Migration("20180517072006_EditCountryBack")]
+    partial class EditCountryBack
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -339,11 +342,15 @@ namespace XBitApi.Migrations
 
                     b.Property<Guid?>("CustomerId");
 
+                    b.Property<Guid?>("MiningFarmId");
+
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("MiningFarmId");
 
                     b.ToTable("MiningFarms");
                 });
@@ -389,7 +396,7 @@ namespace XBitApi.Migrations
             modelBuilder.Entity("XBitApi.Models.Address", b =>
                 {
                     b.HasOne("XBitApi.Models.Country", "Country")
-                        .WithMany()
+                        .WithMany("Addresses")
                         .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -397,7 +404,7 @@ namespace XBitApi.Migrations
             modelBuilder.Entity("XBitApi.Models.Administrator", b =>
                 {
                     b.HasOne("XBitApi.Models.UserInformation", "UserInformation")
-                        .WithMany()
+                        .WithMany("Administrators")
                         .HasForeignKey("UserInformationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -405,12 +412,12 @@ namespace XBitApi.Migrations
             modelBuilder.Entity("XBitApi.Models.Balance", b =>
                 {
                     b.HasOne("XBitApi.Models.Coin", "Coin")
-                        .WithMany()
+                        .WithMany("Balances")
                         .HasForeignKey("CoinId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("XBitApi.Models.MiningFarm", "MiningFarm")
-                        .WithMany()
+                        .WithMany("Balances")
                         .HasForeignKey("MiningFarmId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -423,7 +430,7 @@ namespace XBitApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("XBitApi.Models.Coin", "Coin")
-                        .WithMany()
+                        .WithMany("CoinAlgorithms")
                         .HasForeignKey("CoinId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -436,7 +443,7 @@ namespace XBitApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("XBitApi.Models.UserInformation", "UserInformation")
-                        .WithMany()
+                        .WithMany("Customers")
                         .HasForeignKey("UserInformationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -444,12 +451,12 @@ namespace XBitApi.Migrations
             modelBuilder.Entity("XBitApi.Models.FarmMember", b =>
                 {
                     b.HasOne("XBitApi.Models.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("FarmMembers")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("XBitApi.Models.FarmRight", "FarmRight")
-                        .WithMany()
+                        .WithMany("FarmMembers")
                         .HasForeignKey("FarmRightId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -462,7 +469,7 @@ namespace XBitApi.Migrations
             modelBuilder.Entity("XBitApi.Models.HostingPeriod", b =>
                 {
                     b.HasOne("XBitApi.Models.Miner", "Miner")
-                        .WithMany()
+                        .WithMany("HostingPeriods")
                         .HasForeignKey("MinerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -470,7 +477,7 @@ namespace XBitApi.Migrations
             modelBuilder.Entity("XBitApi.Models.Location", b =>
                 {
                     b.HasOne("XBitApi.Models.Address", "Address")
-                        .WithMany()
+                        .WithMany("Locations")
                         .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -478,12 +485,12 @@ namespace XBitApi.Migrations
             modelBuilder.Entity("XBitApi.Models.LocationAdministrator", b =>
                 {
                     b.HasOne("XBitApi.Models.Administrator", "Administrator")
-                        .WithMany()
+                        .WithMany("LocationAdministrators")
                         .HasForeignKey("AdministratorId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("XBitApi.Models.Location", "Location")
-                        .WithMany()
+                        .WithMany("LocationAdministrators")
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -491,22 +498,22 @@ namespace XBitApi.Migrations
             modelBuilder.Entity("XBitApi.Models.Miner", b =>
                 {
                     b.HasOne("XBitApi.Models.CoinAlgorithm", "CoinAlgorithm")
-                        .WithMany()
+                        .WithMany("Miners")
                         .HasForeignKey("CoinAlgorithmId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("XBitApi.Models.MinerType", "MinerType")
-                        .WithMany()
+                        .WithMany("Miners")
                         .HasForeignKey("MinerTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("XBitApi.Models.MiningFarm", "MiningFarm")
-                        .WithMany()
+                        .WithMany("Miners")
                         .HasForeignKey("MiningFarmId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("XBitApi.Models.Shelf", "Shelf")
-                        .WithMany()
+                        .WithMany("Miners")
                         .HasForeignKey("ShelfId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -514,12 +521,12 @@ namespace XBitApi.Migrations
             modelBuilder.Entity("XBitApi.Models.MinerAlgorithm", b =>
                 {
                     b.HasOne("XBitApi.Models.Algorithm", "Algorithm")
-                        .WithMany()
+                        .WithMany("MinerAlgorithms")
                         .HasForeignKey("AlgorithmId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("XBitApi.Models.MinerType", "MinerType")
-                        .WithMany()
+                        .WithMany("MinerAlgorithms")
                         .HasForeignKey("MinerTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -527,7 +534,7 @@ namespace XBitApi.Migrations
             modelBuilder.Entity("XBitApi.Models.MinerType", b =>
                 {
                     b.HasOne("XBitApi.Models.Manufacturer", "Manufacturer")
-                        .WithMany()
+                        .WithMany("MinerTypes")
                         .HasForeignKey("ManufacturerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -535,14 +542,18 @@ namespace XBitApi.Migrations
             modelBuilder.Entity("XBitApi.Models.MiningFarm", b =>
                 {
                     b.HasOne("XBitApi.Models.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("MiningFarms")
                         .HasForeignKey("CustomerId");
+
+                    b.HasOne("XBitApi.Models.MiningFarm")
+                        .WithMany("MiningFarms")
+                        .HasForeignKey("MiningFarmId");
                 });
 
             modelBuilder.Entity("XBitApi.Models.Shelf", b =>
                 {
                     b.HasOne("XBitApi.Models.Location", "Location")
-                        .WithMany()
+                        .WithMany("Shelves")
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

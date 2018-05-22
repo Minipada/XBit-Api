@@ -15,7 +15,5 @@ namespace XBitApi.Models
         public CoinAlgorithm CoinAlgorithm { get; set; }
         public MiningFarm MiningFarm { get; set; }
         public Shelf Shelf { get; set; }
-
-        public IEnumerable<HostingPeriod> HostingPeriods { get; set; }
     }
 }
