@@ -22,77 +22,112 @@ namespace XBitApi.Controllers
         [HttpGet]
         public IActionResult GetCoinALgorithms(Guid algorithmId, Guid coinId)
         {
-            List<CoinAlgorithm> coinAlgorithms = context.CoinAlgorithms.ToList();
-
-            if (algorithmId != Guid.Empty)
+            try
             {
-                List<CoinAlgorithm> caToRemove = new List<CoinAlgorithm>(coinAlgorithms.Where(ca => ca.AlgorithmId != algorithmId));
-                foreach (var ca in caToRemove)
-                {
-                    coinAlgorithms.Remove(ca);
-                }
-            }
+                List<CoinAlgorithm> coinAlgorithms = context.CoinAlgorithms.ToList();
 
-            if (coinId != Guid.Empty)
+                if (algorithmId != Guid.Empty)
+                {
+                    List<CoinAlgorithm> caToRemove = new List<CoinAlgorithm>(coinAlgorithms.Where(ca => ca.AlgorithmId != algorithmId));
+                    foreach (var ca in caToRemove)
+                    {
+                        coinAlgorithms.Remove(ca);
+                    }
+                }
+
+                if (coinId != Guid.Empty)
+                {
+                    List<CoinAlgorithm> caToRemove = new List<CoinAlgorithm>(coinAlgorithms.Where(ca => ca.CoinId != coinId));
+                    foreach (var ca in caToRemove)
+                    {
+                        coinAlgorithms.Remove(ca);
+                    }
+                }
+
+                return Ok(coinAlgorithms);
+            }
+            catch (Exception ex)
             {
-                List<CoinAlgorithm> caToRemove = new List<CoinAlgorithm>(coinAlgorithms.Where(ca => ca.CoinId != coinId));
-                foreach (var ca in caToRemove)
-                {
-                    coinAlgorithms.Remove(ca);
-                }
+                return StatusCode(500);
             }
-
-            return Ok(coinAlgorithms);
         }
 
         // GET api/coinalgorithm/000000000-0000-0000
         [HttpGet("{id}")]
         public IActionResult GetConAlgorithm(Guid id)
         {
-            CoinAlgorithm coinAlgorithm = context.CoinAlgorithms.Find(id);
-            if (coinAlgorithm == null)
-                return NotFound();
-            return Ok(coinAlgorithm);
+            try
+            {
+                CoinAlgorithm coinAlgorithm = context.CoinAlgorithms.Find(id);
+                if (coinAlgorithm == null)
+                    return NotFound();
+                return Ok(coinAlgorithm);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
 
         // POST api/coinalgorithm
         [HttpPost]
         public IActionResult PostCoinALgorithm([FromBody]CoinAlgorithm coinAlgorithm)
         {
-            if (context.Algorithms.Find(coinAlgorithm.AlgorithmId) == null || context.Coins.Find(coinAlgorithm.CoinId) == null)
-                return BadRequest();
+            try
+            {
+                if (context.Algorithms.Find(coinAlgorithm.AlgorithmId) == null || context.Coins.Find(coinAlgorithm.CoinId) == null)
+                    return BadRequest();
 
-            context.CoinAlgorithms.Add(coinAlgorithm);
-            context.SaveChanges();
-            string url = Url.ActionContext.HttpContext.Request.Path;
-            return Created(url, coinAlgorithm);
+                context.CoinAlgorithms.Add(coinAlgorithm);
+                context.SaveChanges();
+                string url = Url.ActionContext.HttpContext.Request.Path;
+                return Created(url, coinAlgorithm);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
 
         // PUT api/coinalgorithm
         [HttpPut]
-        public IActionResult PutCoinAlgorithm([FromBod]CoinAlgorithm coinAlgorithm)
+        public IActionResult PutCoinAlgorithm([FromBody]CoinAlgorithm coinAlgorithm)
         {
-            if (context.Algorithms.Find(coinAlgorithm.AlgorithmId) == null || context.Coins.Find(coinAlgorithm.CoinId) == null)
-                return BadRequest();
+            try
+            {
+                if (context.Algorithms.Find(coinAlgorithm.AlgorithmId) == null || context.Coins.Find(coinAlgorithm.CoinId) == null)
+                    return BadRequest();
 
-            if (context.CoinAlgorithms.Any(ca => ca.Id == coinAlgorithm.Id))
-                return NotFound();
+                if (context.CoinAlgorithms.Any(ca => ca.Id == coinAlgorithm.Id))
+                    return NotFound();
 
-            context.CoinAlgorithms.Update(coinAlgorithm);
-            context.SaveChanges();
-            return Ok(coinAlgorithm);
+                context.CoinAlgorithms.Update(coinAlgorithm);
+                context.SaveChanges();
+                return Ok(coinAlgorithm);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
 
         // DELETE api/coinalgorithm/0000-0000-0000000
         [HttpDelete("{id}")]
         public  IActionResult DeleteCoinAlgorithm(Guid id)
         {
-            CoinAlgorithm coinAlgorithm = context.CoinAlgorithms.Find(id);
-            if (coinAlgorithm == null)
-                return NotFound();
-            context.CoinAlgorithms.Remove(coinAlgorithm);
-            context.SaveChanges();
-            return Ok();
+            try
+            {
+                CoinAlgorithm coinAlgorithm = context.CoinAlgorithms.Find(id);
+                if (coinAlgorithm == null)
+                    return NotFound();
+                context.CoinAlgorithms.Remove(coinAlgorithm);
+                context.SaveChanges();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
 
     }

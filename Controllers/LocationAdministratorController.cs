@@ -22,75 +22,110 @@ namespace XBitApi.Controllers
         [HttpGet]
         public IActionResult GetLocationAdministrators(Guid locationId, Guid administratorId)
         {
-            List<LocationAdministrator> locationAdministrators = context.LocationAdministrators.ToList();
-
-            if (locationId != Guid.Empty)
+            try
             {
-                List<LocationAdministrator> laToRemove = new List<LocationAdministrator>(locationAdministrators.Where(la => la.LocationId != locationId));
-                foreach (var la in laToRemove)
-                {
-                    locationAdministrators.Remove(la);
-                }
-            }
+                List<LocationAdministrator> locationAdministrators = context.LocationAdministrators.ToList();
 
-            if (administratorId != Guid.Empty)
+                if (locationId != Guid.Empty)
+                {
+                    List<LocationAdministrator> laToRemove = new List<LocationAdministrator>(locationAdministrators.Where(la => la.LocationId != locationId));
+                    foreach (var la in laToRemove)
+                    {
+                        locationAdministrators.Remove(la);
+                    }
+                }
+
+                if (administratorId != Guid.Empty)
+                {
+                    List<LocationAdministrator> laToRemove = new List<LocationAdministrator>(locationAdministrators.Where(la => la.AdministratorId != administratorId));
+                    foreach (var la in laToRemove)
+                    {
+                        locationAdministrators.Remove(la);
+                    }
+                }
+
+                return Ok(locationAdministrators);
+            }
+            catch (Exception ex)
             {
-                List<LocationAdministrator> laToRemove = new List<LocationAdministrator>(locationAdministrators.Where(la => la.AdministratorId != administratorId));
-                foreach (var la in laToRemove)
-                {
-                    locationAdministrators.Remove(la);
-                }
+                return StatusCode(500);
             }
-
-            return Ok(locationAdministrators);
         }
 
         // GET api/locationadministrator/0000-00000-00000000
         [HttpGet("{id}")]
         public IActionResult GetLocationAdministrator(Guid id)
         {
-            LocationAdministrator locationAdministrator = context.LocationAdministrators.Find(id);
-            if (locationAdministrator == null)
-                return NotFound();
-            return Ok(locationAdministrator);
+            try
+            {
+                LocationAdministrator locationAdministrator = context.LocationAdministrators.Find(id);
+                if (locationAdministrator == null)
+                    return NotFound();
+                return Ok(locationAdministrator);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
 
         // POST api/locationAdministrator
         [HttpPost]
         public IActionResult PostLocationAdministrator([FromBody]LocationAdministrator locationAdministrator)
         {
-            if (context.Locations.Find(locationAdministrator.LocationId) == null || context.Administrators.Find(locationAdministrator.AdministratorId) == null)
-                return BadRequest();
+            try
+            {
+                if (context.Locations.Find(locationAdministrator.LocationId) == null || context.Administrators.Find(locationAdministrator.AdministratorId) == null)
+                    return BadRequest();
 
-            context.LocationAdministrators.Add(locationAdministrator);
-            context.SaveChanges();
-            string url = Url.ActionContext.HttpContext.Request.Path;
-            return Created(url, locationAdministrator);
+                context.LocationAdministrators.Add(locationAdministrator);
+                context.SaveChanges();
+                string url = Url.ActionContext.HttpContext.Request.Path;
+                return Created(url, locationAdministrator);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
 
         // PUT api/locationAdministrator
         [HttpPut]
         public IActionResult PutLocationAdministrator([FromBody]LocationAdministrator locationAdministrator)
         {
-            if (context.Locations.Find(locationAdministrator.LocationId) == null || context.Administrators.Find(locationAdministrator.AdministratorId) == null)
-                return BadRequest();
+            try
+            {
+                if (context.Locations.Find(locationAdministrator.LocationId) == null || context.Administrators.Find(locationAdministrator.AdministratorId) == null)
+                    return BadRequest();
 
-            context.LocationAdministrators.Update(locationAdministrator);
-            context.SaveChanges();
-            return Ok(locationAdministrator);
+                context.LocationAdministrators.Update(locationAdministrator);
+                context.SaveChanges();
+                return Ok(locationAdministrator);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
 
         // DELETE api/locationadministrator
         [HttpDelete("{id}")]
         public IActionResult DeleteLocationAdministrator(Guid id)
         {
-            LocationAdministrator locationAdministrator = context.LocationAdministrators.Find(id);
-            if (locationAdministrator == null)
-                return NotFound();
+            try
+            {
+                LocationAdministrator locationAdministrator = context.LocationAdministrators.Find(id);
+                if (locationAdministrator == null)
+                    return NotFound();
 
-            context.LocationAdministrators.Remove(locationAdministrator);
-            context.SaveChanges();
-            return Ok();
+                context.LocationAdministrators.Remove(locationAdministrator);
+                context.SaveChanges();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
     }
 }

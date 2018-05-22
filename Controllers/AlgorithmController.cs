@@ -22,63 +22,98 @@ namespace XBitApi.Controllers
         [HttpGet]
         public IActionResult GetAlgorithms(string name)
         {
-            List<Algorithm> algorithms = context.Algorithms.ToList();
-
-            if (!String.IsNullOrEmpty(name))
+            try
             {
-                List<Algorithm> algosToRemove = new List<Algorithm>(algorithms.Where(algo => algo.Name != name));
-                foreach (Algorithm algo in algosToRemove)
-                {
-                    algorithms.Remove(algo);
-                }
-            }
+                List<Algorithm> algorithms = context.Algorithms.ToList();
 
-            return Ok(algorithms);
+                if (!String.IsNullOrEmpty(name))
+                {
+                    List<Algorithm> algosToRemove = new List<Algorithm>(algorithms.Where(algo => algo.Name != name));
+                    foreach (Algorithm algo in algosToRemove)
+                    {
+                        algorithms.Remove(algo);
+                    }
+                }
+
+                return Ok(algorithms);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
 
         // GET api/algorithm/0000-00000-0000000
         [HttpGet("{id}")]
         public IActionResult GetAlgorithm(Guid id)
         {
-            Algorithm algo = context.Algorithms.Find(id);
-            if (algo == null)
-                return NotFound();
-            return Ok(algo);
+            try
+            {
+                Algorithm algo = context.Algorithms.Find(id);
+                if (algo == null)
+                    return NotFound();
+                return Ok(algo);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
 
         // POST api/algorithm
         [HttpPost]
         public IActionResult PostAlgorithm([FromBody]Algorithm algorithm)
         {
-            context.Algorithms.Add(algorithm);
-            context.SaveChanges();
-            string url = Url.ActionContext.HttpContext.Request.Path;
-            return Created(url, algorithm);
+            try
+            {
+                context.Algorithms.Add(algorithm);
+                context.SaveChanges();
+                string url = Url.ActionContext.HttpContext.Request.Path;
+                return Created(url, algorithm);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
 
         // PUT api/algorithm
         [HttpPut]
         public IActionResult PutAlgorithm([FromBody]Algorithm algorithm)
         {
-            if (context.Algorithms.Any(alg => alg.Id == algorithm.Id))
+            try
             {
-                context.Update(algorithm);
-                context.SaveChanges();
-                return Ok(algorithm);
+                if (context.Algorithms.Any(alg => alg.Id == algorithm.Id))
+                {
+                    context.Update(algorithm);
+                    context.SaveChanges();
+                    return Ok(algorithm);
+                }
+                return NotFound();
             }
-            return NotFound();
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
 
         // DELETE api/algorithm/00000-00000-0000000
         [HttpDelete("{id}")]
         public IActionResult DeleteAlgorithm(Guid id)
         {
-            Algorithm algorithm = context.Algorithms.Find(id);
-            if (algorithm == null)
-                return NotFound();
-            context.Algorithms.Remove(algorithm);
-            context.SaveChanges();
-            return Ok();
+            try
+            {
+                Algorithm algorithm = context.Algorithms.Find(id);
+                if (algorithm == null)
+                    return NotFound();
+                context.Algorithms.Remove(algorithm);
+                context.SaveChanges();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
     }
 }

@@ -22,18 +22,25 @@ namespace XBitApi.Controllers
         [HttpGet]
         public IActionResult GetCountries(string name)
         {
-            List<Country> countries = context.Countries.ToList();
-
-            if (!String.IsNullOrEmpty(name))
+            try
             {
-                List<Country> countriesWithoutName = new List<Country>(countries.Where(country => country.Name != name));
-                foreach (Country country in countriesWithoutName)
-                {
-                    countries.Remove(country);
-                }
-            }
+                List<Country> countries = context.Countries.ToList();
 
-            return Ok(countries);
+                if (!String.IsNullOrEmpty(name))
+                {
+                    List<Country> countriesWithoutName = new List<Country>(countries.Where(country => country.Name != name));
+                    foreach (Country country in countriesWithoutName)
+                    {
+                        countries.Remove(country);
+                    }
+                }
+
+                return Ok(countries);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
 
         }
 
@@ -41,49 +48,77 @@ namespace XBitApi.Controllers
         [HttpGet("{id}")]
         public IActionResult GetCountry(Guid id)
         {
-            Country country = context.Countries.Find(id);
-            if (country == null)
+            try
             {
-                return NotFound();
+                Country country = context.Countries.Find(id);
+                if (country == null)
+                {
+                    return NotFound();
+                }
+                return Ok(country);
             }
-            return Ok(country);
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
 
         // POST api/country
         [HttpPost]
         public IActionResult PostCountry([FromBody]Country country)
         {
-            context.Countries.Add(country);
-            context.SaveChanges();
-            string url = Url.ActionContext.HttpContext.Request.Path;
-            return Created(url, country);
+            try
+            {
+                context.Countries.Add(country);
+                context.SaveChanges();
+                string url = Url.ActionContext.HttpContext.Request.Path;
+                return Created(url, country);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
 
         // PUT api/country
         [HttpPut]
         public IActionResult PutCountry([FromBody]Country country)
         {
-            if (context.Countries.Any(co => co.Id == country.Id))
+            try
             {
-                context.Countries.Update(country);
-                context.SaveChanges();
-                return Ok(country);
+                if (context.Countries.Any(co => co.Id == country.Id))
+                {
+                    context.Countries.Update(country);
+                    context.SaveChanges();
+                    return Ok(country);
+                }
+                return NotFound();
             }
-            return NotFound();
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
 
         // DELETE api/country/id
         [HttpDelete("{id}")]
         public IActionResult DeleteCountry(Guid id)
         {
-            Country countryToRemove = context.Countries.Find(id);
-            if (countryToRemove != null)
+            try
             {
-                context.Countries.Remove(countryToRemove);
-                context.SaveChanges();
-                return Ok();
+                Country countryToRemove = context.Countries.Find(id);
+                if (countryToRemove != null)
+                {
+                    context.Countries.Remove(countryToRemove);
+                    context.SaveChanges();
+                    return Ok();
+                }
+                return NotFound();
             }
-            return NotFound();
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
     }
 }

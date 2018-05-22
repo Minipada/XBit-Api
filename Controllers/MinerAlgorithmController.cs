@@ -22,86 +22,121 @@ namespace XBitApi.Controllers
         [HttpGet]
         public IActionResult GetMinerAlgorithms(Guid minerTypeId, Guid algorithmId, double hashrate)
         {
-            List<MinerAlgorithm> minerAlgorithms = context.MinerAlgorithms.ToList();
-
-            if (minerTypeId != Guid.Empty)
+            try
             {
-                List<MinerAlgorithm> maToRemove = new List<MinerAlgorithm>(minerAlgorithms.Where(ma => ma.MinerTypeId != minerTypeId));
-                foreach (var ma in maToRemove)
-                {
-                    minerAlgorithms.Remove(ma);
-                }
-            }
+                List<MinerAlgorithm> minerAlgorithms = context.MinerAlgorithms.ToList();
 
-            if (algorithmId != Guid.Empty)
+                if (minerTypeId != Guid.Empty)
+                {
+                    List<MinerAlgorithm> maToRemove = new List<MinerAlgorithm>(minerAlgorithms.Where(ma => ma.MinerTypeId != minerTypeId));
+                    foreach (var ma in maToRemove)
+                    {
+                        minerAlgorithms.Remove(ma);
+                    }
+                }
+
+                if (algorithmId != Guid.Empty)
+                {
+                    List<MinerAlgorithm> maToRemove = new List<MinerAlgorithm>(minerAlgorithms.Where(ma => ma.AlgorithmId != algorithmId));
+                    foreach (var ma in maToRemove)
+                    {
+                        minerAlgorithms.Remove(ma);
+                    }
+                }
+
+                if (hashrate == 0)
+                {
+                    List<MinerAlgorithm> maToRemove = new List<MinerAlgorithm>(minerAlgorithms.Where(ma => ma.Hashrate != hashrate));
+                    foreach (var ma in maToRemove)
+                    {
+                        minerAlgorithms.Remove(ma);
+                    }
+                }
+
+                return Ok(minerAlgorithms);
+            }
+            catch (Exception ex)
             {
-                List<MinerAlgorithm> maToRemove = new List<MinerAlgorithm>(minerAlgorithms.Where(ma => ma.AlgorithmId != algorithmId));
-                foreach (var ma in maToRemove)
-                {
-                    minerAlgorithms.Remove(ma);
-                }
+                return StatusCode(500);
             }
-
-            if (hashrate == 0)
-            {
-                List<MinerAlgorithm> maToRemove = new List<MinerAlgorithm>(minerAlgorithms.Where(ma => ma.Hashrate != hashrate));
-                foreach (var ma in maToRemove)
-                {
-                    minerAlgorithms.Remove(ma);
-                }
-            }
-
-            return Ok(minerAlgorithms);
         }
 
         // GET api/mineralgorithm/000-0000-0000000
         [HttpGet("{id}")]
         public IActionResult GetMinerAlgorithm(Guid id)
         {
-            MinerAlgorithm minerAlgorithm = context.MinerAlgorithms.Find(id);
-            if (minerAlgorithm == null)
-                return NotFound();
-            return Ok(minerAlgorithm);
+            try
+            {
+                MinerAlgorithm minerAlgorithm = context.MinerAlgorithms.Find(id);
+                if (minerAlgorithm == null)
+                    return NotFound();
+                return Ok(minerAlgorithm);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
 
         // POST api/minerAlgorithm
         public IActionResult PostMinerAlgorithm([FromBody]MinerAlgorithm minerAlgorithm)
         {
-            if (context.MinerTypes.Find(minerAlgorithm.MinerTypeId) == null || context.Algorithms.Find(minerAlgorithm.AlgorithmId) == null)
-                return BadRequest();
+            try
+            {
+                if (context.MinerTypes.Find(minerAlgorithm.MinerTypeId) == null || context.Algorithms.Find(minerAlgorithm.AlgorithmId) == null)
+                    return BadRequest();
 
-            context.MinerAlgorithms.Add(minerAlgorithm);
-            context.SaveChanges();
-            string url = Url.ActionContext.HttpContext.Request.Path;
-            return Created(url, minerAlgorithm);
+                context.MinerAlgorithms.Add(minerAlgorithm);
+                context.SaveChanges();
+                string url = Url.ActionContext.HttpContext.Request.Path;
+                return Created(url, minerAlgorithm);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
 
         // PUT api/mineralgorithm
         [HttpPut]
         public IActionResult PutMinerAlgorithm([FromBody]MinerAlgorithm minerAlgorithm)
         {
-            if (context.MinerTypes.Find(minerAlgorithm.MinerTypeId) == null || context.Algorithms.Find(minerAlgorithm.AlgorithmId) == null)
-                return BadRequest();
+            try
+            {
+                if (context.MinerTypes.Find(minerAlgorithm.MinerTypeId) == null || context.Algorithms.Find(minerAlgorithm.AlgorithmId) == null)
+                    return BadRequest();
 
-            if (!context.MinerAlgorithms.Any(ma => ma.Id == minerAlgorithm.Id))
-                return NotFound();
+                if (!context.MinerAlgorithms.Any(ma => ma.Id == minerAlgorithm.Id))
+                    return NotFound();
 
-            context.MinerAlgorithms.Update(minerAlgorithm);
-            context.SaveChanges();
-            return Ok(minerAlgorithm);
+                context.MinerAlgorithms.Update(minerAlgorithm);
+                context.SaveChanges();
+                return Ok(minerAlgorithm);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
 
         // DELETE api/mineralgorithm/000-0000-00000000
         [HttpDelete("{id}")]
         public IActionResult DeleteMinerAlgorithm(Guid id)
         {
-            MinerAlgorithm minerAlgorithm = context.MinerAlgorithms.Find(id);
-            if (minerAlgorithm == null)
-                return NotFound();
+            try
+            {
+                MinerAlgorithm minerAlgorithm = context.MinerAlgorithms.Find(id);
+                if (minerAlgorithm == null)
+                    return NotFound();
 
-            context.MinerAlgorithms.Remove(minerAlgorithm);
-            context.SaveChanges();
-            return Ok();
+                context.MinerAlgorithms.Remove(minerAlgorithm);
+                context.SaveChanges();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
     }
 }

@@ -22,88 +22,123 @@ namespace XBitApi.Controllers
         [HttpGet]
         public IActionResult GetManufacturers(string name, string phone, string email, string website)
         {
-            List<Manufacturer> manufacturers = context.Manufacturers.ToList();
-
-            if (!String.IsNullOrEmpty(name))
+            try
             {
-                List<Manufacturer> maToRemove = new List<Manufacturer>(manufacturers.Where(ma => ma.Name != name));
-                foreach (var ma in maToRemove)
-                {
-                    manufacturers.Remove(ma);
-                }
-            }
+                List<Manufacturer> manufacturers = context.Manufacturers.ToList();
 
-            if (!String.IsNullOrEmpty(email))
+                if (!String.IsNullOrEmpty(name))
+                {
+                    List<Manufacturer> maToRemove = new List<Manufacturer>(manufacturers.Where(ma => ma.Name != name));
+                    foreach (var ma in maToRemove)
+                    {
+                        manufacturers.Remove(ma);
+                    }
+                }
+
+                if (!String.IsNullOrEmpty(email))
+                {
+                    List<Manufacturer> maToRemove = new List<Manufacturer>(manufacturers.Where(ma => ma.Email != email));
+                    foreach (var ma in maToRemove)
+                    {
+                        manufacturers.Remove(ma);
+                    }
+                }
+
+                if (!String.IsNullOrEmpty(phone))
+                {
+                    List<Manufacturer> maToRemove = new List<Manufacturer>(manufacturers.Where(ma => ma.Phone != phone));
+                    foreach (var ma in maToRemove)
+                    {
+                        manufacturers.Remove(ma);
+                    }
+                }
+
+                if (!String.IsNullOrEmpty(website))
+                {
+                    List<Manufacturer> maToRemove = new List<Manufacturer>(manufacturers.Where(ma => ma.Website != website));
+                    foreach (var ma in maToRemove)
+                    {
+                        manufacturers.Remove(ma);
+                    }
+                }
+
+                return Ok(manufacturers);
+            }
+            catch (Exception ex)
             {
-                List<Manufacturer> maToRemove = new List<Manufacturer>(manufacturers.Where(ma => ma.Email != email));
-                foreach (var ma in maToRemove)
-                {
-                    manufacturers.Remove(ma);
-                }
+                return StatusCode(500);
             }
-
-            if (!String.IsNullOrEmpty(phone))
-            {
-                List<Manufacturer> maToRemove = new List<Manufacturer>(manufacturers.Where(ma => ma.Phone != phone));
-                foreach (var ma in maToRemove)
-                {
-                    manufacturers.Remove(ma);
-                }
-            }
-
-            if (!String.IsNullOrEmpty(website))
-            {
-                List<Manufacturer> maToRemove = new List<Manufacturer>(manufacturers.Where(ma => ma.Website != website));
-                foreach (var ma in maToRemove)
-                {
-                    manufacturers.Remove(ma);
-                }
-            }
-
-            return Ok(manufacturers);
         }
 
         // GET api/manufacturer/000-000-000000
         [HttpGet("{id}")]
         public IActionResult GetManufacturer(Guid id)
         {
-            Manufacturer manufacturer = context.Manufacturers.Find(id);
-            if (manufacturer == null)
-                return NotFound();
-            return Ok(manufacturer);
+            try
+            {
+                Manufacturer manufacturer = context.Manufacturers.Find(id);
+                if (manufacturer == null)
+                    return NotFound();
+                return Ok(manufacturer);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
 
         // POST api/manufacturer
         [HttpPost]
         public IActionResult PostManufacturer([FromBody]Manufacturer manufacturer)
         {
-            context.Manufacturers.Add(manufacturer);
-            context.SaveChanges();
-            string url = Url.ActionContext.HttpContext.Request.Path;
-            return Created(url, manufacturer);
+            try
+            {
+                context.Manufacturers.Add(manufacturer);
+                context.SaveChanges();
+                string url = Url.ActionContext.HttpContext.Request.Path;
+                return Created(url, manufacturer);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
 
         // PUT api/manufacturer
         [HttpPut]
         public IActionResult PutManufacturer([FromBody]Manufacturer manufacturer)
         {
-            if (!context.Manufacturers.Any(ma => ma.Id == manufacturer.Id))
-                return NotFound();
-            context.Manufacturers.Update(manufacturer);
-            context.SaveChanges();
-            return Ok(manufacturer);
+            try
+            {
+                if (!context.Manufacturers.Any(ma => ma.Id == manufacturer.Id))
+                    return NotFound();
+                context.Manufacturers.Update(manufacturer);
+                context.SaveChanges();
+                return Ok(manufacturer);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
 
         // DELETE api/manufacturer/0000-000000-0000000
         [HttpDelete("{id}")]
         public IActionResult DeleteManufacturer(Guid id)
         {
-            Manufacturer manufacturer = context.Manufacturers.Find(id);
-            if (manufacturer == null)
-                return NotFound();
-            context.Manufacturers.Remove(manufacturer);
-            context.SaveChanges();
-            return Ok();
+            try
+            {
+                Manufacturer manufacturer = context.Manufacturers.Find(id);
+                if (manufacturer == null)
+                    return NotFound();
+                context.Manufacturers.Remove(manufacturer);
+                context.SaveChanges();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
     }
 }
