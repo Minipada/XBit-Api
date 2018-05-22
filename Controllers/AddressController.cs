@@ -12,10 +12,12 @@ namespace XBitApi.Controllers
     public class AddressController : Controller
     {
         private XBitContext context;
+        private LoggingService loggingService;
 
         public AddressController(XBitContext context)
         {
             this.context = context;
+            this.loggingService = new LoggingService(context);
         }
 
         // GET api/address?countryId=test
