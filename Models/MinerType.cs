@@ -7,6 +7,7 @@ namespace XBitApi.Models
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public int Watts { get; set; }
         public Guid ManufacturerId { get; set; }
 
         public Manufacturer Manufacturer { get; set; }
