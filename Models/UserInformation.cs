@@ -12,5 +12,7 @@ namespace XBitApi.Models
         public string Phone { get; set; }
         public DateTime BirthDate { get; set; }
         public string Username { get; set; }
+
+        public List<UserClaimRoles> UserClaimsRoles { get; set; }
     }
 }

@@ -33,5 +33,9 @@ namespace XBitApi.EF
         public DbSet<Customer> Customers { get; set; }
         public DbSet<FarmMember> FarmMembers { get; set; }
         public DbSet<FarmRight> FarmRights { get; set; }
+        public DbSet<Claims> Claims { get; set; }
+        public DbSet<Roles> Roles { get; set; }
+        public DbSet<ClaimRoles> ClaimRoles { get; set; }
+        public DbSet<UserClaimRoles> UserClaimRoles { get; set; }
     }
 }

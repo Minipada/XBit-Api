@@ -4,11 +4,12 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using XBitApi.Models;
 using XBitApi.EF;
+using Microsoft.AspNetCore.Authorization;
 
 namespace XBitApi.Controllers
 {
     [Controller]
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
     public class AddressController : Controller
     {
         private XBitContext context;
@@ -69,9 +70,11 @@ namespace XBitApi.Controllers
                 return StatusCode(500);
             }
         }
-
+        
         // GET api/address/Guid
+        [Authorize(Roles = "CanAdd,CanEdit,CanDelete")]
         [HttpGet("{id}")]
+        [Route("api/Address/GetAddress/{id}")]
         public IActionResult GetAddress(Guid id)
         {
             try

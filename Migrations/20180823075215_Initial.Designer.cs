@@ -11,9 +11,10 @@ using XBitApi.EF;
 namespace XBitApi.Migrations
 {
     [DbContext(typeof(XBitContext))]
-    partial class XBitContextModelSnapshot : ModelSnapshot
+    [Migration("20180823075215_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,36 +89,6 @@ namespace XBitApi.Migrations
                     b.HasIndex("MiningFarmId");
 
                     b.ToTable("Balances");
-                });
-
-            modelBuilder.Entity("XBitApi.Models.ClaimRoles", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("ClaimsId");
-
-                    b.Property<int>("RolesId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClaimsId");
-
-                    b.HasIndex("RolesId");
-
-                    b.ToTable("ClaimRoles");
-                });
-
-            modelBuilder.Entity("XBitApi.Models.Claims", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Claim");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Claims");
                 });
 
             modelBuilder.Entity("XBitApi.Models.Coin", b =>
@@ -384,18 +355,6 @@ namespace XBitApi.Migrations
                     b.ToTable("MiningFarms");
                 });
 
-            modelBuilder.Entity("XBitApi.Models.Roles", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Role");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Roles");
-                });
-
             modelBuilder.Entity("XBitApi.Models.Shelf", b =>
                 {
                     b.Property<Guid>("Id")
@@ -410,24 +369,6 @@ namespace XBitApi.Migrations
                     b.HasIndex("LocationId");
 
                     b.ToTable("Shelves");
-                });
-
-            modelBuilder.Entity("XBitApi.Models.UserClaimRoles", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("ClaimRolesId");
-
-                    b.Property<Guid>("UserInformationId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClaimRolesId");
-
-                    b.HasIndex("UserInformationId");
-
-                    b.ToTable("UserClaimRoles");
                 });
 
             modelBuilder.Entity("XBitApi.Models.UserInformation", b =>
@@ -478,19 +419,6 @@ namespace XBitApi.Migrations
                     b.HasOne("XBitApi.Models.MiningFarm", "MiningFarm")
                         .WithMany()
                         .HasForeignKey("MiningFarmId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("XBitApi.Models.ClaimRoles", b =>
-                {
-                    b.HasOne("XBitApi.Models.Claims", "Claims")
-                        .WithMany()
-                        .HasForeignKey("ClaimsId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("XBitApi.Models.Roles", "Roles")
-                        .WithMany()
-                        .HasForeignKey("RolesId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -623,19 +551,6 @@ namespace XBitApi.Migrations
                     b.HasOne("XBitApi.Models.Location", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("XBitApi.Models.UserClaimRoles", b =>
-                {
-                    b.HasOne("XBitApi.Models.ClaimRoles", "ClaimRoles")
-                        .WithMany()
-                        .HasForeignKey("ClaimRolesId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("XBitApi.Models.UserInformation", "UserInformation")
-                        .WithMany("UserClaimsRoles")
-                        .HasForeignKey("UserInformationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
