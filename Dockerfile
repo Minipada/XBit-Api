@@ -1,21 +1,18 @@
-FROM microsoft/aspnetcore:2.0-nanoserver-1709 AS base
+FROM microsoft/dotnet:2.1-sdk AS build
 WORKDIR /app
-EXPOSE 80
 
-FROM microsoft/aspnetcore-build:2.0-nanoserver-1709 AS build
-WORKDIR /src
-COPY XBit-Api.sln ./
-COPY XBit-Api.csproj ./
-RUN dotnet restore -nowarn:msb3202,nu1503
-RUN dotnet Update-Database
-COPY . .
-WORKDIR /src/
-RUN dotnet build -c Release -o /app
+# copy csproj and restore as distinct layers
+COPY *.sln .
+COPY *.csproj ./aspnetapp/
+RUN dotnet restore
 
-FROM build AS publish
-RUN dotnet publish -c Release -o /app
+# copy everything else and build app
+COPY aspnetapp/. ./aspnetapp/
+WORKDIR /app/aspnetapp
+RUN dotnet publish -c Release -o out
 
-FROM base AS final
+
+FROM microsoft/dotnet:2.1-aspnetcore-runtime AS runtime
 WORKDIR /app
-COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "XBit-Api.dll"]
+COPY --from=build /app/aspnetapp/out ./
+ENTRYPOINT ["dotnet", "aspnetapp.dll"]
