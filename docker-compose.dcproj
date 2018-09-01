@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" Sdk="Microsoft.Docker.Sdk">
   <PropertyGroup Label="Globals">
-    <ProjectVersion>2.0</ProjectVersion>
+    <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Windows</DockerTargetOS>
     <ProjectGuid>34906cfc-aa5b-495c-8646-d7966055ac02</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>

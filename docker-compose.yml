@@ -1,4 +1,4 @@
-version: '3'
+version: '3.4'
 
 services:
   sql-server:
@@ -13,4 +13,4 @@ services:
     ports:
      - "80:80"
     depends_on:
-     - sql-server
+      - sql-server
