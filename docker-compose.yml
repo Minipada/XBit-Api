@@ -1,16 +1,27 @@
-version: '3.4'
+version: '3.5'
 
 services:
-  sql-server:
+  sql_server:
     image: microsoft/mssql-server-windows-express:latest
+    container_name: sql_server
     ports:
       - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Your_password123
   xbit-api:
-    image: xbitapi
+    container_name: xbitapi
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-     - "80:80"
+      - "52706:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
     depends_on:
-      - sql-server
+      - sql_server
+
+networks:
+  default:
+    external:
+      name: nat

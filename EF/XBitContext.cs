@@ -9,7 +9,7 @@ namespace XBitApi.EF
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=localhost\\SQLEXPRESS;Initial Catalog=XBit;Integrated Security=SSPI");
+            optionsBuilder.UseSqlServer(@"Server=sql_server;Database=master;Integrated Security=SSPI;");
             base.OnConfiguring(optionsBuilder);
         }
 
